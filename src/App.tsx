@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import ParallaxPerspective from './components/ParallaxPerspective'
+import ParallaxDuplicateLenis from './components/ParallaxDuplicateLenis'
 
 function App() {
   const [percentage, setPercentage] = useState(0)
   const imageRef = useRef<HTMLImageElement>(null)
   const sizeRadioImage = 1.4
+
+  //to test unmount of lenis
+  const [toggleParallaxWithLenis, setToggleParallaxWithLenis] = useState(false)
 
   //to handle animation
   useEffect(() => {
@@ -53,16 +57,24 @@ function App() {
         <div className='flex flex-col items-center justify-center h-screen text-white grow'>
           <div>{percentage}</div>
           <button onClick={() => setPercentage(percentage + 5)}>+</button>
+          <button
+            onClick={() => setToggleParallaxWithLenis(!toggleParallaxWithLenis)}
+          >
+            Unmount Lenis
+          </button>
         </div>
       </div>
       <div className='h-screen'></div>
-      <div className='h-screen'></div>
-      <div className='h-screen'></div>
+      {toggleParallaxWithLenis && (
+        <div className='h-screen wrapper'>
+          <ParallaxPerspective />
+        </div>
+      )}
 
-      <div className='h-screen wrapper'>
-        <ParallaxPerspective />
-      </div>
       <div className='h-screen'></div>
+      <div className='h-screen wrapper'>
+        <ParallaxDuplicateLenis />
+      </div>
     </main>
   )
 }

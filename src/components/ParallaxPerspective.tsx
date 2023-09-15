@@ -9,19 +9,18 @@ const ParallaxPerspective = () => {
   const gsapLenisContainerSectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    const lenis = new Lenis()
+    lenis.on('scroll', ScrollTrigger.update)
+
+    const updateScroll = (time: number) => {
+      console.log('time')
+      lenis.raf(time * 1000)
+    }
+
     const ctx = gsap.context(() => {
-      const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      })
+      gsap.ticker.add(updateScroll)
 
-      function raf(time: number) {
-        lenis.raf(time)
-        ScrollTrigger.update()
-        requestAnimationFrame(raf)
-      }
-
-      requestAnimationFrame(raf)
+      gsap.ticker.lagSmoothing(0)
 
       gsap.to('.card-image', {
         yPercent: 35,
@@ -34,7 +33,12 @@ const ParallaxPerspective = () => {
         },
       })
     }, gsapLenisContainerSectionRef)
-    return () => ctx.revert()
+    return () => {
+      console.log('unmounting lenis')
+      ctx.revert()
+      lenis.destroy()
+      gsap.ticker.remove(updateScroll)
+    }
   }, [])
 
   return (
