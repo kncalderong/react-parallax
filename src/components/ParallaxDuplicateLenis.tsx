@@ -1,4 +1,4 @@
-/* import Lenis from '@studio-freight/lenis' */
+import Lenis from '@studio-freight/lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/all'
 import { useEffect, useRef } from 'react'
@@ -10,7 +10,7 @@ const ParallaxDuplicateLenis = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      /* const lenis = new Lenis()
+      const lenis = new Lenis()
 
       lenis.on('scroll', ScrollTrigger.update)
 
@@ -18,7 +18,7 @@ const ParallaxDuplicateLenis = () => {
         console.log('time')
 
         lenis.raf(time * 1000)
-      }) */
+      })
 
       gsap.ticker.lagSmoothing(0)
 
